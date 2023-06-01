@@ -19,14 +19,6 @@ export default function NFTComponent({ nft }: Props) {
             tokenContract: NFT_COLLECTION_ADDRESS,
             tokenId: nft.metadata.id,
         });
-
-    //Add for auciton section
-    const { data: auctionListing, isLoading: loadingAuction} = 
-        useValidEnglishAuctions(marketplace, {
-            tokenContract: NFT_COLLECTION_ADDRESS,
-            tokenId: nft.metadata.id,
-        });
-
     return (
         <Flex direction={"column"} backgroundColor={"#EEE"} justifyContent={"center"} padding={"2.5"} borderRadius={"6px"} borderColor={"lightgray"} borderWidth={1}>
             <Box borderRadius={"4px"} overflow={"hidden"}>
@@ -36,20 +28,13 @@ export default function NFTComponent({ nft }: Props) {
             <Text fontWeight={"bold"}>{nft.metadata.name}</Text>
 
             <Box>
-                {loadingMarketplace || loadingDirectListing || loadingAuction ? (
+                {loadingMarketplace || loadingDirectListing ? (
                     <Skeleton></Skeleton>
                 ) : directListing && directListing[0] ? (
                     <Box>
                         <Flex direction={"column"}>
                             <Text fontSize={"small"}>Price</Text>
                             <Text fontSize={"small"}>{`${directListing[0]?.currencyValuePerToken.displayValue} ${directListing[0]?.currencyValuePerToken.symbol}`}</Text>
-                        </Flex>
-                    </Box>
-                ) : auctionListing && auctionListing[0] ? (
-                    <Box>
-                        <Flex direction={"column"}>
-                            <Text fontSize={"small"}>Minimum Bid</Text>
-                            <Text fontSize={"small"}>{`${auctionListing[0]?.minimumBidCurrencyValue.displayValue} ${auctionListing[0]?.minimumBidCurrencyValue.symbol}`}</Text>
                         </Flex>
                     </Box>
                 ) : (
